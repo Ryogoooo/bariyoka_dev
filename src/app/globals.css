@@ -20,6 +20,18 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* app/globals.css */
+
+.resize-handle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  right: 0;
+  bottom: 0;
+  background-color: gray;
+  cursor: se-resize;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
