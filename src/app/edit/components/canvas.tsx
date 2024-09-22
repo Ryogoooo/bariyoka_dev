@@ -119,6 +119,13 @@ const Canvas: React.FC<CanvasProps> = ({
                     />
                 ))}
             </div>
+            {/* 「決定」ボタン */}
+            <button
+                onClick={handleConfirm}
+                className="mt-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+            >
+                決定
+            </button>
         </div>
     );
 };
