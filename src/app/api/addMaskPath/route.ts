@@ -5,37 +5,7 @@ import path from "path";
 import fs from "fs";
 import sharp from "sharp"; // 画像処理ライブラリ
 
-
-// 仮想的なデータベース（テストデータ）
-let previousNodes: ObjectNode[] = [
-    {
-        id: "existing-node-id-1",
-        name: "ノード1",
-        properties: { backgroundColor: "lightblue" },
-        coordinates: { x: 10, y: 10 },
-        shape: "rectangle",
-        size: { width: 10, height: 10 },
-    },
-    // 他のノード...
-];
-
-// 各条件に対応する関数のプレースホルダー
-function handleNameOrPropertiesChange(node: ObjectNode) {
-    // 名前またはプロパティが変更された場合の処理
-    console.log(`名前またはプロパティが変更されました: ${node.id}`);
-}
-
-function handlePositionOrSizeChange(node: ObjectNode) {
-    // 位置、形状、またはサイズが変更された場合の処理
-    console.log(`位置、形状、またはサイズが変更されました: ${node.id}`);
-}
-
-function handleNewNode(node: ObjectNode) {
-    // 新しいノードの場合の処理
-    console.log(`新しいノードが追加されました: ${node.id}`);
-}
 export async function POST(request: NextRequest) {
-
     try {
         const node  = await request.json();
 
