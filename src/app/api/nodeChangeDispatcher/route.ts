@@ -3,23 +3,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ObjectNode } from "@/app/interfaces/ObjectNode";
 
-// 仮想的なデータベース（テストデータ）
-let previousNodes: ObjectNode[] = [
-    {
-        id: "existing-node-id-1",
-        name: "ノード1",
-        properties: { backgroundColor: "lightblue" },
-        coordinates: { x: 10, y: 10 },
-        shape: "rectangle",
-        size: { width: 10, height: 10 },
-        projectId: "project-id-1",
-    },
-    // 他のノード...
-];
-
 export async function POST(request: NextRequest) {
     try {
         const { nodes } = await request.json();
+        const previousNodes: ObjectNode[] = [];//データベースのノード情報を仮想的に格納
 
         // 変更を検出するための処理
         for (const node of nodes) {
@@ -52,9 +39,6 @@ export async function POST(request: NextRequest) {
              
             }
         }
-
-        // 仮想的にデータベースを更新
-        previousNodes = nodes;
 
         return NextResponse.json({ nodes });
     } catch (error) {

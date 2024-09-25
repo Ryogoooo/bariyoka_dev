@@ -2,31 +2,11 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import Node from "./Node";
 import { ObjectNode } from "../../interfaces/ObjectNode";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios"; // Axiosをインポート
-
-const initialNodes: ObjectNode[] = [
-    {
-        id: "node0",
-        name: "ノード0",
-        properties: { backgroundColor: "lightblue" },
-        coordinates: { x: 10, y: 20 }, // パーセンテージ
-        shape: "rectangle",
-        size: { width: 10, height: 10 }, // パーセンテージ
-        projectId: "project-id-1",
-    },
-    {
-        id: "node1",
-        name: "ノード1",
-        properties: { backgroundColor: "lightgreen" },
-        coordinates: { x: 30, y: 10 }, // パーセンテージ
-        shape: "rectangle",
-        size: { width: 10, height: 10 }, // パーセンテージ
-        projectId: "project-id-1",
-    },
-];
 
 interface CanvasProps {
     targetImagePath: string;
@@ -34,6 +14,8 @@ interface CanvasProps {
 const Canvas: React.FC<CanvasProps> = ({
     targetImagePath
 }) => {
+
+    const initialNodes: ObjectNode[] = [] //でーたベースから取得したノード情報を格納
     const [nodes, setNodes] = useState<ObjectNode[]>(initialNodes);
     const [canvasSize, setCanvasSize] = useState(800); // 初期キャンバスサイズ
     const canvasRef = useRef<HTMLDivElement>(null);
@@ -61,24 +43,22 @@ const Canvas: React.FC<CanvasProps> = ({
             )
         );
     };
-
     // ノードを追加する関数
     const addNode = () => {
         const newNode: ObjectNode = {
             id: uuidv4(), // 固有のIDを生成
-            name: `ノード${nodes.length + 1}`,
+            imageId: 'defalt', // 適切な imageId を設定
+            name: `新規ノード`,
             properties: { backgroundColor: "lightyellow" },
-            coordinates: { x: 50, y: 50 }, // パーセンテージ
+            coordinates: { x: 50, y: 50 },
             shape: "rectangle",
-            size: { width: 10, height: 10 }, // パーセンテージ       
-
-            // 適切に参照するように後で変更
-            projectId: "project-id-1",
-
+            size: { width: 10, height: 10 },
+            projectId: "project-id-1", // 適切なプロジェクトIDを設定
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
         };
         setNodes([...nodes, newNode]);
     };
-
     // ノードを削除する関数
     const removeNode = (id: string) => {
         setNodes(nodes.filter((node) => node.id !== id));

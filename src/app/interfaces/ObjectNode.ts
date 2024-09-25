@@ -24,11 +24,15 @@ export interface Size {
 
 export interface ObjectNode {
     id: string;
+    imageId: string; // 画像 ID（外部キー）
     name: string;
     properties: ObjectNodeProperties;
     coordinates: Coordinates;
     shape: Shape;
     size: Size;
-    maskImagePath?: string; // マスク画像のパスを追加
+    maskImageUrl?: string; // マスク画像のパスを追加
+    cropImageUrl?: string; // クロップ画像のパスを追加
     projectId: string; // プロジェクト ID（外部キー）
+    createdAt?: string; // 作成日時
+    updatedAt?: string; // 更新日時
 }
