@@ -3,7 +3,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import Node from "./Node";
-import { ObjectNode } from "../interfaces";
+import { ObjectNode } from "../../interfaces/ObjectNode";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios"; // Axiosをインポート
 
@@ -15,6 +15,7 @@ const initialNodes: ObjectNode[] = [
         coordinates: { x: 10, y: 20 }, // パーセンテージ
         shape: "rectangle",
         size: { width: 10, height: 10 }, // パーセンテージ
+        projectId: "project-id-1",
     },
     {
         id: "node1",
@@ -23,6 +24,7 @@ const initialNodes: ObjectNode[] = [
         coordinates: { x: 30, y: 10 }, // パーセンテージ
         shape: "rectangle",
         size: { width: 10, height: 10 }, // パーセンテージ
+        projectId: "project-id-1",
     },
 ];
 
@@ -68,7 +70,11 @@ const Canvas: React.FC<CanvasProps> = ({
             properties: { backgroundColor: "lightyellow" },
             coordinates: { x: 50, y: 50 }, // パーセンテージ
             shape: "rectangle",
-            size: { width: 10, height: 10 }, // パーセンテージ
+            size: { width: 10, height: 10 }, // パーセンテージ       
+
+            // 適切に参照するように後で変更
+            projectId: "project-id-1",
+
         };
         setNodes([...nodes, newNode]);
     };
@@ -82,10 +88,10 @@ const Canvas: React.FC<CanvasProps> = ({
     const handleConfirm = async () => {
         try {
             // ノード情報をAPIに送信
-            const response = await axios.post("/api/process-nodes", { nodes });
-            const updatedNodes = response.data.nodes;
-            // マスク画像のパスを各ノードに追加
-            setNodes(updatedNodes);
+            await axios.post("/api/nodeChangeDispatcher", { nodes });
+            //待機処理を追加してね。ローディング画面を表示するなど
+            console.log("ノード情報を送信しました:");
+
         } catch (error) {
             console.error("エラーが発生しました:", error);
         }

@@ -30,4 +30,5 @@ export interface ObjectNode {
     shape: Shape;
     size: Size;
     maskImagePath?: string; // マスク画像のパスを追加
+    projectId: string; // プロジェクト ID（外部キー）
 }

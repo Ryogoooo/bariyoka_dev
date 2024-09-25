@@ -1,6 +1,7 @@
+'use server'
 // src/app/api/process_nodes/route.ts
 import { NextRequest, NextResponse } from "next/server";
-import { ObjectNode } from "@/app/edit/interfaces";
+import { ObjectNode } from "@/app/interfaces/ObjectNode";
 
 // 仮想的なデータベース（テストデータ）
 let previousNodes: ObjectNode[] = [
@@ -11,6 +12,7 @@ let previousNodes: ObjectNode[] = [
         coordinates: { x: 10, y: 10 },
         shape: "rectangle",
         size: { width: 10, height: 10 },
+        projectId: "project-id-1",
     },
     // 他のノード...
 ];
@@ -37,8 +39,9 @@ export async function POST(request: NextRequest) {
                     previousNode.size.width !== node.size.width ||
                     previousNode.size.height !== node.size.height;
 
+                // 名前やプロパティが変更された場合
                 if (nameOrPropertiesChanged) {
-
+                    
                 }
 
                 if (positionOrSizeChanged) {
