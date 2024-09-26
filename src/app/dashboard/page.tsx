@@ -33,9 +33,29 @@ const Dashboard: React.FC = () => {
         fetchProjects();
     }, []);
 
-    const handleSelectProject = (projectId: string) => {
-        // プロジェクトIDを取得し、プロジェクト詳細ページに遷移
-        router.push(`/edit/${projectId}`);
+    const handleSelectProject = async (projectId: string) => {
+        try {
+            // Imageが存在するかを確認
+            const response = await axios.get("/api/images", {
+                params: { projectId },
+            });
+
+            if (response.data.success) {
+                const images = response.data.images;
+                if (images.length === 0) {
+                    // Imageが存在しない場合、初期画像アップロード画面に遷移
+                    router.push(`/edit/${projectId}/upload-image`);
+                } else {
+                    // Imageが存在する場合、編集画面に遷移
+                    router.push(`/edit/${projectId}`);
+                }
+            } else {
+                alert(`画像の取得に失敗しました: ${response.data.error}`);
+            }
+        } catch (error) {
+            console.error("画像の取得中にエラーが発生しました:", error);
+            alert("画像の取得中にエラーが発生しました。");
+        }
     };
 
     const handleCreateProject = async () => {
