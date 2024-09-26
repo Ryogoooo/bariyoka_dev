@@ -1,26 +1,25 @@
-// app/page.tsx
-"use client";
+// src/app/edit/components/canvas.tsx
+'use client';
 
 import React, { useState, useRef, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
 import Node from "./Node";
 import { ObjectNode } from "../../interfaces/ObjectNode";
 import { v4 as uuidv4 } from "uuid";
-import axios from "axios"; // Axiosをインポート
+import axios from "axios";
 
 interface CanvasProps {
     projectId: string;
+    imageUrl: string;
 }
+
 const Canvas: React.FC<CanvasProps> = ({
-    projectId
+    projectId,
+    imageUrl
 }) => {
-    const initialNodes: ObjectNode[] = [] //でーたベースから取得したノード情報を格納
+    const initialNodes: ObjectNode[] = []; // データベースから取得したノード情報を格納
     const [nodes, setNodes] = useState<ObjectNode[]>(initialNodes);
     const [canvasSize, setCanvasSize] = useState(800); // 初期キャンバスサイズ
     const canvasRef = useRef<HTMLDivElement>(null);
-
-    // databaseから取得した画像情報を格納
-    const targetImagePath = 'sample.jpg' // 適切なプロジェクトIDを設定
 
     // キャンバスのサイズを取得し、リサイズイベントに対応
     useEffect(() => {
@@ -41,43 +40,80 @@ const Canvas: React.FC<CanvasProps> = ({
     const handleNodeChange = (id: string, changes: Partial<ObjectNode>) => {
         setNodes((prevNodes) =>
             prevNodes.map((node) =>
-                node.id === id ? { ...node, ...changes } : node
+                node.id === id ? { ...node, ...changes, updatedAt: new Date().toISOString() } : node
             )
         );
     };
+
     // ノードを追加する関数
-    const addNode = () => {
+    const addNode = async () => {
         const newNode: ObjectNode = {
             id: uuidv4(), // 固有のIDを生成
-            imageId: 'defalt', // 適切な imageId を設定
+            imageId: 'default', // 適切な imageId を設定
             name: `新規ノード`,
             properties: { backgroundColor: "lightyellow" },
             coordinates: { x: 50, y: 50 },
             shape: "rectangle",
-            size: { width: 10, height: 10 },
-            projectId: "project-id-1", // 適切なプロジェクトIDを設定
+            size: { width: 100, height: 100 },
+            projectId: projectId, // 正しいプロジェクトIDを設定
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
         };
         setNodes([...nodes, newNode]);
+
+        // 必要に応じてデータベースに新しいノードを保存
+        try {
+            const response = await axios.post("/api/nodes", newNode);
+            if (response.data.success) {
+                console.log("ノードが正常に保存されました:", response.data.node);
+            } else {
+                console.error("ノードの保存に失敗しました:", response.data.error);
+            }
+        } catch (error) {
+            console.error("ノードの保存中にエラーが発生しました:", error);
+        }
     };
+
     // ノードを削除する関数
     const removeNode = (id: string) => {
         setNodes(nodes.filter((node) => node.id !== id));
+
+        // 必要に応じてデータベースからノードを削除
+        axios.delete(`/api/nodes/${id}`)
+            .then(response => {
+                if (response.data.success) {
+                    console.log("ノードが正常に削除されました:", response.data.message);
+                } else {
+                    console.error("ノードの削除に失敗しました:", response.data.error);
+                }
+            })
+            .catch(error => {
+                console.error("ノードの削除中にエラーが発生しました:", error);
+            });
     };
 
     // 決定ボタンをクリックしたとき、ノード情報をAPIに送信
     const handleConfirm = async () => {
         try {
+            setLoading(true);
             // ノード情報をAPIに送信
-            await axios.post("/api/nodeChangeDispatcher", { nodes });
-            //待機処理を追加してね。ローディング画面を表示するなど
-            console.log("ノード情報を送信しました:");
-
+            const response = await axios.post("/api/nodeChangeDispatcher", { nodes });
+            if (response.data.success) {
+                alert("ノード情報が正常に送信されました。");
+                console.log("ノード情報を送信しました:", response.data);
+            } else {
+                alert(`ノード情報の送信に失敗しました: ${response.data.error}`);
+            }
         } catch (error) {
             console.error("エラーが発生しました:", error);
+            alert("ノード情報の送信中にエラーが発生しました。");
+        } finally {
+            setLoading(false);
         }
     };
+
+    const [loadingConfirm, setLoading] = useState<boolean>(false);
+
     return (
         <div className="flex flex-col items-center">
             <button
@@ -92,7 +128,7 @@ const Canvas: React.FC<CanvasProps> = ({
                 style={{
                     width: `${canvasSize}px`,
                     height: `${canvasSize}px`,
-                    backgroundImage: `url(${targetImagePath})`, // ここに背景画像のURLを指定
+                    backgroundImage: `url(${imageUrl})`, // ここに背景画像のURLを指定
                     backgroundSize: 'cover', // 画像をコンテナに合わせてリサイズ
                     backgroundPosition: 'center', // 画像を中央に配置
                 }}
@@ -111,8 +147,9 @@ const Canvas: React.FC<CanvasProps> = ({
             <button
                 onClick={handleConfirm}
                 className="mt-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+                disabled={loadingConfirm}
             >
-                決定
+                {loadingConfirm ? "送信中..." : "決定"}
             </button>
         </div>
     );
