@@ -8,23 +8,28 @@ export interface User {
     updatedAt: string; // ISO 8601 形式の日時文字列
 }
 
-export interface Project {
-    id: string; // UUID
-    userId: string; // ユーザー ID（外部キー）
-    name?: string;
+export interface ProjectInput {
+    userId: string; // 既に存在するユーザーのID
+    name: string;
     description?: string;
-    createdAt: string; // ISO 8601 形式の日時文字列
-    updatedAt: string; // ISO 8601 形式の日時文字列
+}
+export interface Project extends ProjectInput {
+    id: string; // UUID
+    createdAt: string; // ISO 8601形式
+    updatedAt: string; // ISO 8601形式
 }
 
-export interface Image {
-    id: string; // UUID
-    projectId: string; // プロジェクト ID（外部キー）
+export interface ImageInput {
+    projectId: string;
     imageUrl: string;
-    version: number; // バージョン番号（int2）
-    createdAt: string; // ISO 8601 形式の日時文字列
-    updatedAt: string; // ISO 8601 形式の日時文字列
+    version: number;
 }
+export interface Image extends ImageInput {
+    id: string; // UUID
+    createdAt: string; // ISO 8601形式
+    updatedAt: string; // ISO 8601形式
+}
+
 export interface ProcessedImage {
     id: string; // UUID
     imageId: string; // 画像 ID（外部キー）

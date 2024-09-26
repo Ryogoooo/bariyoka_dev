@@ -22,17 +22,20 @@ export interface Size {
     height: number; // パーセンテージ (0-100)
 }
 
-export interface ObjectNode {
-    id: string;
-    imageId: string; // 画像 ID（外部キー）
-    name: string;
-    properties: ObjectNodeProperties;
-    coordinates: Coordinates;
-    shape: Shape;
-    size: Size;
-    maskImageUrl?: string; // マスク画像のパスを追加
-    cropImageUrl?: string; // クロップ画像のパスを追加
-    projectId: string; // プロジェクト ID（外部キー）
-    createdAt?: string; // 作成日時
-    updatedAt?: string; // 更新日時
+export interface ObjectNodeInput {
+    imageId: string;
+    projectId: string;
+    name?: string;
+    properties?: Record<string, any>;
+    coordinates: { x: number; y: number };
+    shape?: string;
+    size: { width: number; height: number };
+    cropImageUrl?: string;
+    maskImageUrl?: string;
+}
+
+export interface ObjectNode extends ObjectNodeInput {
+    id: string; // UUID
+    createdAt: string; // ISO 8601形式
+    updatedAt: string; // ISO 8601形式
 }

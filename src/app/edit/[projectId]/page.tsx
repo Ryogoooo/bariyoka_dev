@@ -1,11 +1,11 @@
 "use client";
 import React, { useState } from "react";
-import Canvas from "./components/canvas";
+import { useParams } from "next/navigation";
+import Canvas from "../components/canvas";
 
 
 export default function Page() {
-
-    const [targetImagePath, _setTargetImagePath] = useState("images/sample.jpg");
+    const { projectId } = useParams<{ projectId: string }>();
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 p-8">
@@ -15,7 +15,7 @@ export default function Page() {
                 </h1>
                 <div className="bg-white rounded-lg shadow-xl overflow-hidden">
                     <div className="p-6">
-                        <Canvas targetImagePath={targetImagePath} />
+                        <Canvas projectId={projectId} />
                     </div>
                 </div>
             </div>

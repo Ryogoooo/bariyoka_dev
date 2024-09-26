@@ -9,16 +9,18 @@ import { v4 as uuidv4 } from "uuid";
 import axios from "axios"; // Axiosをインポート
 
 interface CanvasProps {
-    targetImagePath: string;
+    projectId: string;
 }
 const Canvas: React.FC<CanvasProps> = ({
-    targetImagePath
+    projectId
 }) => {
-
     const initialNodes: ObjectNode[] = [] //でーたベースから取得したノード情報を格納
     const [nodes, setNodes] = useState<ObjectNode[]>(initialNodes);
     const [canvasSize, setCanvasSize] = useState(800); // 初期キャンバスサイズ
     const canvasRef = useRef<HTMLDivElement>(null);
+
+    // databaseから取得した画像情報を格納
+    const targetImagePath = 'sample.jpg' // 適切なプロジェクトIDを設定
 
     // キャンバスのサイズを取得し、リサイズイベントに対応
     useEffect(() => {
