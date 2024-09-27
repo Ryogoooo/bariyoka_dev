@@ -2,7 +2,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabaseClient';
-import { Image, ImageInput } from '@/app/interfaces/global';
+import { ImageInput } from '@/app/interfaces/global';
 
 export async function POST(request: NextRequest) {
     try {

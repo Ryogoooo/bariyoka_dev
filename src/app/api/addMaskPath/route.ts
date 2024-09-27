@@ -1,6 +1,6 @@
 'use server'
 import { NextRequest, NextResponse } from "next/server";
-import { ObjectNode } from "@/app/edit/ObjectNode";
+import { ObjectNode } from "@/app/interfaces/ObjectNode";
 import path from "path";
 import fs from "fs";
 import sharp from "sharp"; // 画像処理ライブラリ

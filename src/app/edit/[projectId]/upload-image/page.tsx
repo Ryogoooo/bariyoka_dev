@@ -52,7 +52,7 @@ const UploadImagePage: React.FC = () => {
             } else {
                 setError(`画像のアップロードに失敗しました: ${response.data.error}`);
             }
-        } catch (error) {
+        } catch (_error) {
             setError("画像のアップロード中にエラーが発生しました。");
         } finally {
             setLoading(false);
