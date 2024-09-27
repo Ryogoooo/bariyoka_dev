@@ -26,7 +26,7 @@ export interface ObjectNodeInput {
     imageId: string;
     projectId: string;
     name?: string;
-    properties?: Record<string, any>;
+    properties?: ObjectNodeProperties;
     coordinates: { x: number; y: number };
     shape?: string;
     size: { width: number; height: number };

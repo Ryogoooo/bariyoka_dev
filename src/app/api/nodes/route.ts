@@ -2,7 +2,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@//lib/supabaseClient';
-import { ObjectNode, ObjectNodeInput } from '@/app/interfaces/ObjectNode';
+import {  ObjectNodeInput } from '@/app/interfaces/ObjectNode';
 
 export async function POST(request: NextRequest) {
     try {

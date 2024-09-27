@@ -3,8 +3,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Project, ProjectInput } from "../interfaces/global";
-import { mockProjects } from "../mock";
+import { Project, ProjectInput } from "../interfaces/global"
 import axios from "axios";
 
 const Dashboard: React.FC = () => {

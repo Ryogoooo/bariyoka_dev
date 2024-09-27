@@ -3,7 +3,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { put } from '@vercel/blob';
 import { supabase } from '@/lib/supabaseClient';
-import { Image } from '@/app/interfaces/global';
 
 export async function PUT(request: NextRequest) {
     try {
