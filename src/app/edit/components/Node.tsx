@@ -4,7 +4,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Draggable, { DraggableData, DraggableEvent } from "react-draggable";
 import { Resizable } from "react-resizable";
-import { ObjectNode } from "../interfaces";
+import { ObjectNode } from "../../interfaces/ObjectNode";
 
 interface NodeProps {
     node: ObjectNode;
