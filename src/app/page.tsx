@@ -29,7 +29,7 @@ export default function Component() {
           </FeatureCard>
         </div>
         <div className="text-center mt-16">
-          <Link href="/edit">
+          <Link href="/dashboard">
             <Button className="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-full text-lg">
               今すぐ試す <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
