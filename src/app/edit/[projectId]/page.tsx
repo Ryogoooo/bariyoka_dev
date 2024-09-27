@@ -26,7 +26,7 @@ export default function Page() {
                 });
 
                 if (response.data.success) {
-                    const images: any = response.data.images;
+                    const images = response.data.images;
                     if (images.length === 0) {
                         // 画像が存在しない場合は初期画像アップロードページにリダイレクト
                         window.location.href = `/edit/${projectId}/upload-image`;
@@ -34,7 +34,7 @@ export default function Page() {
                     }
 
                     // version が一番大きい画像を選択
-                    const latestImage: any = images.reduce((prev: any, current: any) => {
+                    const latestImage = images.reduce((prev, current) => {
                         return (prev.version > current.version) ? prev : current;
                     }, images[0]);
 

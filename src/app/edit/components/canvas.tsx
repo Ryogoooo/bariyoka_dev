@@ -23,7 +23,7 @@ const Canvas: React.FC<CanvasProps> = ({
     const [loadingConfirm, setLoadingConfirm] = useState<boolean>(false);
     const [isProcessing, setIsProcessing] = useState<boolean>(false); // API処理中かどうか
     const [maskImageUrl, setMaskImageUrl] = useState<string | null>(null); // 取得したマスク画像のURL
-    const [maskData, setMaskData] = useState<any>(null); // マスクに関連するデータ
+    const [_maskData, setMaskData] = useState<HTMLImageElement>(null); // マスクに関連するデータ
     const [showMaskOptions, setShowMaskOptions] = useState<boolean>(false); // マスクの承認/再生成オプションを表示するか
     const [clickCoordinates, setClickCoordinates] = useState<{ x: number; y: number } | null>(null); // クリック位置
 
@@ -68,7 +68,7 @@ const Canvas: React.FC<CanvasProps> = ({
         // APIにデータを送信
         try {
             // モックの API エンドポイントにリクエストを送信
-            const response = await axios.post("/api/click-mask", {
+            const response = await axios.post("/api", {
                 projectId,
                 imageUrl,
                 clickCoordinates: { x: relativeX, y: relativeY },

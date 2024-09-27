@@ -2,7 +2,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabaseClient';
-import { Project, ProjectInput } from '@/app/interfaces/global';
+import {  ProjectInput } from '@/app/interfaces/global';
 
 export async function POST(request: NextRequest) {
     try {
@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
     }
 }
 
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
     try {
         // モックユーザーIDを使用
         const userId = 'b834bf01-a4bc-4a79-ac0b-8ca793e05a16';
